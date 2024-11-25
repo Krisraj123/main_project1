@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    <script src="{{url_for('static', filename='js/scripts/script.js')}}" defer></script>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+
+        <h1>Dynamic Content Example</h1> <p id="dynamic-content"></p>
+
+
+        <h1>Upload Your Resume</h1>
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <label for="resume">Upload your PDF Resume:</label>
+            <input type="file" id="resume" name="resume" accept=".pdf" required>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; {{ current_year }} AI Career Assistant. All rights reserved.</p>
+    </footer>
+</body>
+</html>
