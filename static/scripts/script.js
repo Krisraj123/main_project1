@@ -9,3 +9,9 @@ const message = helloWorld();
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dynamic-content').innerHTML = message;
 });
+
+
+const handleSubmit = () => {
+    const form = document.getElementById('upload-form');
+    form.submit();
+}

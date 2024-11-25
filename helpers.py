@@ -1,5 +1,4 @@
 from huggingface_hub import InferenceClient
-import gradio as gr
 import fitz  # PyMuPDF
 
 # Initialize the InferenceClient with your API key
@@ -19,9 +18,9 @@ def extract_text_from_pdf(pdf_file):
             text += page.get_text()
     return text
 
-def polish_resume(position_name, resume_file, polish_prompt=""):
+def polish_resume_ai(position_name, resume_file, polish_prompt):
     # Extract text from the uploaded PDF resume
-    resume_content = extract_text_from_pdf(resume_file.name)
+    resume_content = extract_text_from_pdf(resume_file)
 
     # Create the prompt for the Qwen model
     if polish_prompt and polish_prompt.strip():
@@ -48,21 +47,3 @@ def polish_resume(position_name, resume_file, polish_prompt=""):
     # Extract the generated polished resume
     polished_resume = completion.choices[0].message['content']
     return polished_resume
-
-# Create a Gradio interface
-resume_polish_application = gr.Interface(
-    fn=polish_resume,
-    allow_flagging="never",
-    inputs=[
-        gr.Textbox(label="Position Name", placeholder="Enter the name of the position"),
-        gr.File(label="Resume (PDF)", file_types=[".pdf"], type="filepath"),  # Changed to File input for PDF
-        gr.Textbox(label="Polish Instructions (optional)", placeholder="Enter specific instructions or areas for improvement (optional)...", lines=2)
-    ],
-    outputs=gr.Textbox(label="Polished Content"),
-    title="Resume Polish Application",
-    description="This application helps you polish your resume. Enter the position you want to apply for, upload your resume in PDF format, and provide specific instructions or areas for improvement (optional). Then get a polished version of your content."
-)
-
-# Launch the Gradio app
-if __name__ == "__main__":
-    resume_polish_application.launch()

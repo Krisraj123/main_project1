@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polish Resume - AI Career Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Polish Your Resume</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('options') }}">Options</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form action="{{ url_for('polish_resume') }}" method="POST" enctype="multipart/form-data">
+            <label for="position_name">Position Name:</label>
+            <input type="text" id="position_name" name="position_name" required>
+
+            <label for="resume_file">Upload Your Resume (PDF):</label>
+            <input type="file" id="resume_file" name="resume_file" accept=".pdf" required>
+
+            <label for="polish_prompt">Polish Instructions (optional):</label>
+            <textarea id="polish_prompt" name="polish_prompt" rows="2"></textarea>
+
+            <button type="submit">Polish Resume</button>
+        </form>
+
+        {% if polished_content %}
+            <h2>Polished Resume:</h2>
+            <textarea rows="10" cols="50">{{ polished_content }}</textarea>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; {{ current_year }} AI Career Assistant. All rights reserved.</p>
+    </footer>
+   
+</body>
+</html>
